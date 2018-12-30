@@ -1,6 +1,4 @@
-import { Game } from "../game";
-import { Action } from "./action";
-
-export abstract class PlayerAction extends Action {
-    public abstract action(game: Game): void;
-}
+/**
+ * an action taken by a player
+ */
+export abstract class PlayerAction { }

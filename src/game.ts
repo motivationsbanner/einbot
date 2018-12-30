@@ -11,7 +11,7 @@ export class Game {
   /**
    * get the current Player
    */
-  get currentPlayer(): Player {
+  private get currentPlayer(): Player {
     return this.players[this.activePlayerIndex];
   }
 
@@ -19,7 +19,7 @@ export class Game {
    * it changes the Position of the activePlayerIndex depending in which direction
    * the game is currently being played
    */
-  public endTurn(): void {
+  private endTurn(): void {
     if (this.direction) {
       this.activePlayerIndex++;
     } else {

@@ -1,11 +1,7 @@
-import { Game } from "../game";
 import { PlayerAction } from "./playerAction";
 
-export class PassAction extends PlayerAction {
-    /**
-     * The current Player will draw 1 Card from the playstack and the he will end his Turn
-     */
-    public action(game: Game): void {
-        game.endTurn();
-    }
-}
+/**
+ * pass, e.g. the current Player will draw 1 Card from the
+ * playstack and the he will end his turn
+ */
+export class PassAction extends PlayerAction { }
