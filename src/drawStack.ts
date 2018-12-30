@@ -22,6 +22,14 @@ export class DrawStack {
   }
 
   /**
+   * adds an array of cards onto the drawstack
+   * @param cards an array of cards to be added to the stack
+   */
+  public addCardsToStack(cards: Card[]): void {
+    this.cards = this.cards.concat(cards);
+  }
+
+  /**
    * amount of cards in the stack
    */
   get length(): number {
