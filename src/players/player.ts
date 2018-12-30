@@ -1,5 +1,5 @@
 import { PlayerAction } from "../actions/playerAction";
-import { Game } from "../games/games";
+import { Game } from "../game";
 export abstract class Player {
     /**
      * This Function is used to make the player do stuff

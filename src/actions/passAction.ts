@@ -1,4 +1,4 @@
-import { Game } from "../games/games";
+import { Game } from "../game";
 import { PlayerAction } from "./playerAction";
 
 export class PassAction extends PlayerAction {

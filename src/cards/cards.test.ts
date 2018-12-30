@@ -1,5 +1,5 @@
 import { Color } from "./color";
-import { NumberCard } from "./number_card";
+import { NumberCard } from "./numberCard";
 import { Value } from "./value";
 
 test("card can be played if the top card has the same color", () => {
