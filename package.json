@@ -1,0 +1,36 @@
+{
+  "name": "einbot",
+  "version": "0.0.0",
+  "description": "",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "jest",
+    "build": "webpack -p",
+    "server": "webpack-dev-server",
+    "lint": "tslint --project ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/motivationsbanner/einbot.git"
+  },
+  "author": "motivationsbanner",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/motivationsbanner/einbot/issues"
+  },
+  "homepage": "https://github.com/motivationsbanner/einbot#readme",
+  "devDependencies": {
+    "@types/jest": "^23.3.9",
+    "awesome-typescript-loader": "^5.2.1",
+    "jest": "^23.6.0",
+    "source-map-loader": "^0.2.4",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10"
+  },
+  "dependencies": {}
+}
