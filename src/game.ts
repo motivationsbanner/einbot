@@ -59,6 +59,10 @@ export class Game {
 
       // it removes the card specified in the action from the hand and then adds it to the game stack
 
+      // check if this player has no more cards in his hand which means he won
+      if (this.getCurrentPlayer().hand.length === 0) {
+        this.running = false;
+      }
       // it ends the turn
       this.endTurn();
       return;
