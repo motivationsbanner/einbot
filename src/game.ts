@@ -1,3 +1,5 @@
+import { PlayCardAction } from "./actions/playCardAction";
+import { PlayerAction } from "./actions/playerAction";
 import { DrawStack } from "./drawStack";
 import { Player } from "./players/player";
 
@@ -5,6 +7,8 @@ export class Game {
   private drawStack: DrawStack = new DrawStack();
   private activePlayerIndex: number = 0;
   private direction: boolean = false;
+  private running: boolean = false;
+  private drewCard: boolean = false;
 
   constructor(public players: Player[]) {
     this.restartGame();
@@ -27,6 +31,11 @@ export class Game {
         player.hand.push(this.drawStack.draw());
       }
     }
+    this.running = true;
+    // game loop it loops as runs as long as the game is running
+    while (this.running) {
+      this.playTurn();
+    }
   }
 
   /**
@@ -36,6 +45,26 @@ export class Game {
     return this.drawStack.length;
   }
 
+  private playTurn(): void {
+    const action: PlayerAction = this.getCurrentPlayer().play(this);
+    if (action instanceof PlayCardAction) {
+      // checks if the card can be played
+
+      // it removes the card specified in the action from the hand and then adds it to the game stack
+
+      // it ends the turn
+      this.endTurn();
+    } else {
+      // if the player hasnt drawn a card yet
+      if (this.drewCard) {
+        // the player draws a card from the draw stack
+        this.getCurrentPlayer().hand.push(this.drawStack.draw());
+        this.drewCard = true;
+      } else {
+        this.endTurn();
+      }
+    }
+  }
   /**
    * get the current Player
    */
@@ -48,6 +77,7 @@ export class Game {
    * the game is currently being played
    */
   private endTurn(): void {
+    this.drewCard = false;
     if (this.direction) {
       this.activePlayerIndex++;
     } else {
