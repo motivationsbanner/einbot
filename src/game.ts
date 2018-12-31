@@ -53,14 +53,14 @@ export class Game {
    * a turn can have more than one actions from a player
    */
   public playTurn(): void {
-    const action: PlayerAction = this.getCurrentPlayer().play(this);
+    const action: PlayerAction = this.currentPlayer.play(this);
     if (action instanceof PlayCardAction) {
       // checks if the card can be played
 
       // it removes the card specified in the action from the hand and then adds it to the game stack
 
       // check if this player has no more cards in his hand which means he won
-      if (this.getCurrentPlayer().hand.length === 0) {
+      if (this.currentPlayer.hand.length === 0) {
         this.running = false;
       }
       // it ends the turn
@@ -70,7 +70,7 @@ export class Game {
       // if the player hasnt drawn a card yet
       if (!this.drewCard) {
         // the player draws a card from the draw stack
-        this.getCurrentPlayer().hand.push(this.drawStack.draw());
+        this.currentPlayer.hand.push(this.drawStack.draw());
         this.drewCard = true;
       } else {
         this.endTurn();
@@ -82,7 +82,7 @@ export class Game {
   /**
    * get the current Player
    */
-  private getCurrentPlayer(): Player {
+  private get currentPlayer(): Player {
     return this.players[this.activePlayerIndex];
   }
 
