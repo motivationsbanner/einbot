@@ -1,5 +1,6 @@
 import { PlayCardAction } from "./actions/playCardAction";
 import { PlayerAction } from "./actions/playerAction";
+import { Card } from "./cards/card";
 import { DrawStack } from "./drawStack";
 import { Player } from "./players/player";
 
@@ -45,6 +46,13 @@ export class Game {
    */
   public getDrawStackSize(): number {
     return this.drawStack.length;
+  }
+
+  /**
+   * get the topcard of the gamestack
+   */
+  public get topCard(): Card {
+    return null;
   }
 
   /**

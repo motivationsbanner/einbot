@@ -1,5 +1,6 @@
 import { Game } from "./game";
 import { BasicPlayer } from "./players/basicPlayer";
+import { PassingPlayer } from "./players/passingPlayer";
 import { Player } from "./players/player";
 
 test("cards get handed out correctly: correct amount of cards in drawStack", () => {
@@ -42,7 +43,7 @@ test("initialization hands out the cards correctly: correct amount of cards in p
 
 test("basic player draws cards correctly", () => {
     // adds an array with 4 basicplayers
-    const players: Player[] = [new BasicPlayer()];
+    const players: Player[] = [new PassingPlayer()];
     // creates a new game
     const game: Game = new Game(players, false);
     // it lets the player play one turn
@@ -54,7 +55,7 @@ test("basic player draws cards correctly", () => {
 
 test("basic player draws cards correctly after multiple turns", () => {
     // adds an array with 4 basicplayers
-    const players: Player[] = [new BasicPlayer()];
+    const players: Player[] = [new PassingPlayer()];
     // creates a new game
     const game: Game = new Game(players, false);
     // it lets the player play one turn

@@ -1,2 +1,1 @@
-let node = document.createTextNode("hello world!");
-document.body.appendChild(node);
+document.body.appendChild(document.createTextNode("Uno Game"));
