@@ -10,15 +10,17 @@ export class Game {
   private running: boolean = false;
   private drewCard: boolean = false;
 
-  constructor(public players: Player[]) {
-    this.restartGame();
+  constructor(public players: Player[], automaticRun: boolean) {
+    this.restartGame(automaticRun);
   }
 
   /**
    * all cards are put into the drawstack
    * each player draws 7 cards and then it starts the game
+   * the parameter automaticRun makes it possible if the game should run automatically
+   *  or if you want to step through each turn individually
    */
-  public restartGame(): void {
+  public restartGame(automaticRun: boolean): void {
     // adds all the cards that the players have on their hands to the draw pile
     for (const player of this.players) {
       this.drawStack.addCardsToStack(player.hand);
@@ -33,7 +35,7 @@ export class Game {
     }
     this.running = true;
     // game loop it loops as runs as long as the game is running
-    while (this.running) {
+    while (this.running && automaticRun) {
       this.playTurn();
     }
   }
@@ -45,7 +47,12 @@ export class Game {
     return this.drawStack.length;
   }
 
-  private playTurn(): void {
+  /**
+   * this function plays exactly one turn
+   * one turn means that one player starts it and he then ends it
+   * a turn can have more than one actions from a player
+   */
+  public playTurn(): void {
     const action: PlayerAction = this.getCurrentPlayer().play(this);
     if (action instanceof PlayCardAction) {
       // checks if the card can be played
@@ -54,16 +61,19 @@ export class Game {
 
       // it ends the turn
       this.endTurn();
+      return;
     } else {
       // if the player hasnt drawn a card yet
-      if (this.drewCard) {
+      if (!this.drewCard) {
         // the player draws a card from the draw stack
         this.getCurrentPlayer().hand.push(this.drawStack.draw());
         this.drewCard = true;
       } else {
         this.endTurn();
+        return;
       }
     }
+    this.playTurn();
   }
   /**
    * get the current Player
