@@ -1,6 +1,9 @@
 import { Card } from "../cards/card";
 import { Color } from "../cards/color";
+import { DirectionCard } from "../cards/directionCard";
+import { DrawCard } from "../cards/drawCard";
 import { NumberCard } from "../cards/numberCard";
+import { SkipCard } from "../cards/skipCard";
 import { Value } from "../cards/value";
 
 /**
@@ -59,6 +62,11 @@ export class DrawStack {
         for (let i = 0; i < 2; i++) {
           this.cards.push(new NumberCard(color as Color, value as Value));
         }
+      }
+      for (let i = 0; i < 2; i++) {
+        this.cards.push(new DrawCard(color as Color));
+        this.cards.push(new SkipCard(color as Color));
+        this.cards.push(new DirectionCard(color as Color));
       }
     }
   }

@@ -14,7 +14,7 @@ test("cards get handed out correctly: correct amount of cards in drawStack", () 
   game.startGame(false);
   // it should hand out 7 cards to each player meaning 7*4 = 28 cards are removed from the drawStack
   // and add one card to the gameStack
-  expect(game.getDrawStackSize()).toBe(51);
+  expect(game.getDrawStackSize()).toBe(75);
 });
 
 test("cards get handed out correctly: correct amount of cards in player Hand", () => {
@@ -40,7 +40,7 @@ test("initialization hands out the cards correctly: correct amount of cards in d
   const game: Game = new Game(players);
   game.startGame(false);
   // it should hand out 7 cards to each player and add one card to the gameStack
-  expect(game.getDrawStackSize()).toBe(51);
+  expect(game.getDrawStackSize()).toBe(75);
 });
 
 test("initialization hands out the cards correctly: correct amount of cards in player Hand", () => {

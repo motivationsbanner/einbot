@@ -9,10 +9,12 @@ import { GameStack } from "./stacks/gameStack";
 export class Game {
   private drawStack: DrawStack = new DrawStack();
   private gameStack: GameStack = new GameStack();
+  private running: boolean = false;
   private activePlayerIndex: number = 0;
   private direction: boolean = false;
-  private running: boolean = false;
   private drewCard: boolean = false;
+  private skip: boolean = false;
+  private drawCards: number = 0;
 
   /**
    * create a new game
@@ -29,6 +31,11 @@ export class Game {
    * it returns the log of this game
    */
   public startGame(automaticRun: boolean): void {
+    this.activePlayerIndex = 0;
+    this.direction = false;
+    this.drewCard = false;
+    this.skip = false;
+    this.drawCards = 0;
     // adds all the cards that the players have on their hands to the draw pile
     for (const player of this.players) {
       this.drawStack.addCardsToStack(player.hand);
@@ -71,6 +78,14 @@ export class Game {
     return this.gameStack.topCard;
   }
 
+  public switchDirection(): void {
+    this.direction = !this.direction;
+  }
+
+  public addDrawCards(amount: number): void {
+    this.drawCards += amount;
+  }
+
   /**
    * this function plays exactly one turn
    * one turn means that one player starts it and he then ends it
@@ -78,18 +93,23 @@ export class Game {
    */
   public playTurn(): void {
     const action: PlayerAction = this.currentPlayer.play(this);
-
+    while (this.drawCards > 0) {
+      this.currentPlayer.hand.push(this.drawStack.draw());
+    }
+    if (this.skip) {
+      this.skip = false;
+      this.endTurn();
+    }
     if (action instanceof PlayCardAction) {
       // TODO: checks if the card can be played
-
-      // TODO: it removes the card specified in the action from the hand and then
-      //       adds it to the game stack
 
       const index = this.currentPlayer.hand.indexOf(action.card, 0);
       if (index > -1) {
         this.currentPlayer.hand.splice(index, 1);
       }
+
       this.gameStack.addCard(action.card);
+      action.card.onPlay(this);
       this.logInfo(this.currentPlayer + " played a " + action.card);
       // check if this player has no more cards in his hand which means he won
       if (this.currentPlayer.hand.length === 0) {
@@ -141,6 +161,9 @@ export class Game {
     this.logInfo(this.playerStatistic);
   }
 
+  public skipPlayer(): void {
+    this.skip = true;
+  }
   /**
    * get the current player
    */

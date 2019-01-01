@@ -5,10 +5,9 @@ import { Value } from "./value";
 
 /**
  * a basic card with a number and a color
- * the name "Value" is used because "Number" is reserved
  */
-export class NumberCard extends Card {
-  constructor(public color: Color, public value: Value) {
+export class DirectionCard extends Card {
+  constructor(public color: Color) {
     super();
   }
 
@@ -17,17 +16,16 @@ export class NumberCard extends Card {
       return false;
     }
 
-    const castedCard = topCard as NumberCard;
+    const castedCard = topCard as Card;
     return this.color === castedCard.color ||
-      topCard instanceof NumberCard &&
-      this.value === castedCard.value;
+      topCard instanceof DirectionCard;
   }
 
   public toString(): string {
-    return " " + Color[this.color] + " " + this.value;
+    return " " + Color[this.color] + " Direction Card";
   }
 
   public onPlay(game: Game): void {
-   return;
+    game.switchDirection();
   }
 }
