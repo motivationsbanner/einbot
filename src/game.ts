@@ -1,50 +1,62 @@
 import { PlayCardAction } from "./actions/playCardAction";
 import { PlayerAction } from "./actions/playerAction";
 import { Card } from "./cards/card";
-import { DrawStack } from "./drawStack";
 import { Player } from "./players/player";
+import { DrawStack } from "./stacks/drawStack";
+import { GameStack } from "./stacks/gameStack";
 
 export class Game {
   private drawStack: DrawStack = new DrawStack();
+  private gameStack: GameStack = new GameStack();
   private activePlayerIndex: number = 0;
   private direction: boolean = false;
   private running: boolean = false;
   private drewCard: boolean = false;
   private log: string = "";
 
-  constructor(public players: Player[]) {
-  }
+  constructor(public players: Player[]) { }
 
   /**
    * all cards are put into the drawstack
    * each player draws 7 cards and then it starts the game
    * the parameter automaticRun makes it possible if the game should run automatically
-   *  or if you want to step through each turn individually
+   * or if you want to step through each turn individually
    * it returns the log of this game
    */
   public startGame(automaticRun: boolean): string {
     this.log = "";
+
     // adds all the cards that the players have on their hands to the draw pile
     for (const player of this.players) {
       this.drawStack.addCardsToStack(player.hand);
       player.hand = [];
     }
-    // todo add all cards from the gameStack to the drawStack
+
+    // add all cards from the gameStack to the drawStack
+    this.gameStack.addCardsToDrawStack(this.drawStack, false);
+
+    // add one card to the gameStack
+    this.gameStack.initialize(this.drawStack.draw());
+
     // give each player 7 cards
     for (const player of this.players) {
       for (let j: number = 0; j <= 6; j++) {
         player.hand.push(this.drawStack.draw());
       }
     }
+
     this.running = true;
     this.writeToLog("Starting the game with the following Players: ");
+
     for (const player of this.players) {
       this.writeToLog("\n" + player.playerName);
     }
+
     // game loop it loops as runs as long as the game is running
     while (this.running && automaticRun) {
       this.writeToLog(this.playTurn());
     }
+
     return this.log;
   }
 
@@ -59,7 +71,7 @@ export class Game {
    * get the topcard of the gamestack
    */
   public get topCard(): Card {
-    return null;
+    return this.gameStack.topCard;
   }
 
   /**
@@ -70,6 +82,7 @@ export class Game {
   public playTurn(): string {
     let turnlog: string = "";
     const action: PlayerAction = this.currentPlayer.play(this);
+
     if (action instanceof PlayCardAction) {
       // checks if the card can be played
 
@@ -102,8 +115,9 @@ export class Game {
     turnlog = turnlog.concat(this.playTurn());
     return turnlog;
   }
+
   /**
-   * get the current Player
+   * get the current player
    */
   private get currentPlayer(): Player {
     return this.players[this.activePlayerIndex];
@@ -119,6 +133,7 @@ export class Game {
    */
   private endTurn(): void {
     this.drewCard = false;
+
     if (this.direction) {
       this.activePlayerIndex++;
     } else {

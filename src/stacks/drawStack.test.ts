@@ -1,4 +1,4 @@
-import { Card } from "./cards/card";
+import { Card } from "../cards/card";
 import { DrawStack } from "./drawStack";
 
 test("cards get generated", () => {

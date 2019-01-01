@@ -1,10 +1,10 @@
-import { Card } from "./cards/card";
-import { Color } from "./cards/color";
-import { NumberCard } from "./cards/numberCard";
-import { Value } from "./cards/value";
+import { Card } from "../cards/card";
+import { Color } from "../cards/color";
+import { NumberCard } from "../cards/numberCard";
+import { Value } from "../cards/value";
 
 /**
- * this class represents the draw-stack
+ * this class represents the drawStack
  */
 export class DrawStack {
   private cards: Card[];
@@ -32,8 +32,18 @@ export class DrawStack {
   /**
    * amount of cards in the stack
    */
-  get length(): number {
+  public get length(): number {
     return this.cards.length;
+  }
+
+  /**
+   * shuffle the deck
+   */
+  public shuffle(): void {
+    for (let i = 0; i < this.length; i++) {
+      const ii = Math.floor(Math.random() * (this.length - 1 - i)) + i;
+      [this.cards[i], this.cards[ii]] = [this.cards[ii], this.cards[i]];
+    }
   }
 
   /**
@@ -50,16 +60,6 @@ export class DrawStack {
           this.cards.push(new NumberCard(color as Color, value as Value));
         }
       }
-    }
-  }
-
-  /**
-   * shuffle the deck
-   */
-  private shuffle(): void {
-    for (let i = 0; i < this.length; i++) {
-      const ii = Math.floor(Math.random() * (this.length - 1 - i)) + i;
-      [this.cards[i], this.cards[ii]] = [this.cards[ii], this.cards[i]];
     }
   }
 }
