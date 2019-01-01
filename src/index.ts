@@ -20,7 +20,7 @@ new PassingPlayer("passingPlayer1")];
 const game: Game = new Game(players, logger);
 
 // starts the game
-for (let i: number = 0; i < 100; i++) {
+for (let i: number = 0; i < 1000; i++) {
   game.startGame(true);
 }
 

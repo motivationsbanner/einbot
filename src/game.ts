@@ -95,6 +95,7 @@ export class Game {
     const action: PlayerAction = this.currentPlayer.play(this);
     while (this.drawCards > 0) {
       this.currentPlayer.hand.push(this.drawStack.draw());
+      this.drawCards--;
     }
     if (this.skip) {
       this.skip = false;
