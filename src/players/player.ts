@@ -4,6 +4,8 @@ import { Game } from "../game";
 
 export abstract class Player {
   public hand: Card[] = [];
+  public wins: number = 0;
+  public games: number = 0;
   constructor(private name: string) {
   }
   /**
@@ -17,6 +19,6 @@ export abstract class Player {
   }
 
   public toString(): string {
-    return this.playerName;
+    return this.playerName + " hand: " + this.hand;
   }
 }

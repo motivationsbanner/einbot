@@ -7,4 +7,8 @@ export abstract class Card {
    * @param topCard the card which is on top of the stack
    */
   public abstract isPlayable(topCard: Card): boolean;
+
+  public toString(): string {
+    return "Card";
+  }
 }

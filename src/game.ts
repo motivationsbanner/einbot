@@ -85,13 +85,25 @@ export class Game {
       // TODO: it removes the card specified in the action from the hand and then
       //       adds it to the game stack
 
-      this.logInfo(this.currentPlayer + " played a card");
-
+      const index = this.currentPlayer.hand.indexOf(action.card, 0);
+      if (index > -1) {
+        this.currentPlayer.hand.splice(index, 1);
+      }
+      this.gameStack.addCard(action.card);
+      this.logInfo(this.currentPlayer + " played a " + action.card);
       // check if this player has no more cards in his hand which means he won
       if (this.currentPlayer.hand.length === 0) {
         this.running = false;
         this.logInfo(this.currentPlayer + " won");
+        this.currentPlayer.wins++;
+        for (const player of this.players) {
+          player.games++;
+        }
         return;
+      }
+
+      if (this.currentPlayer.hand.length === 1) {
+        this.logInfo(this.currentPlayer + " UNO");
       }
 
       // it ends the turn
@@ -103,13 +115,25 @@ export class Game {
         // the player draws a card from the draw stack
         this.currentPlayer.hand.push(this.drawStack.draw());
         this.drewCard = true;
-        this.logInfo(this.currentPlayer + " drew a card");
+        this.logInfo(this.currentPlayer + " drew a card " + this.currentPlayer.hand[this.currentPlayer.hand.length-1]);
         this.playTurn();
       } else {
-        this.endTurn();
         this.logInfo(this.currentPlayer + " ended his turn");
+        this.endTurn();
       }
     }
+  }
+
+  public get playerStatistic(): string {
+    let output: string = "";
+    for (const player of this.players) {
+      output = output + player.playerName + " Games: " + player.games + " Wins: " + player.wins + "\n";
+    }
+    return output;
+  }
+
+  public printPlayerStatistic(): void {
+    this.logInfo(this.playerStatistic);
   }
 
   /**

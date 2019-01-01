@@ -20,4 +20,8 @@ export class NumberCard extends Card {
     return this.color === castedCard.color ||
       this.value === castedCard.value;
   }
+
+  public toString(): string {
+    return " " + Color[this.color] + " " + this.value;
+  }
 }
