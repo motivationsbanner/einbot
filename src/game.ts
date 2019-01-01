@@ -1,6 +1,7 @@
 import { PlayCardAction } from "./actions/playCardAction";
 import { PlayerAction } from "./actions/playerAction";
 import { Card } from "./cards/card";
+import { Logger } from "./loggers/logger";
 import { Player } from "./players/player";
 import { DrawStack } from "./stacks/drawStack";
 import { GameStack } from "./stacks/gameStack";
@@ -12,9 +13,13 @@ export class Game {
   private direction: boolean = false;
   private running: boolean = false;
   private drewCard: boolean = false;
-  private log: string = "";
 
-  constructor(public players: Player[]) { }
+  /**
+   * create a new game
+   * @param players the players
+   * @param logger the logger (default: no logger)
+   */
+  constructor(public players: Player[], private logger: Logger = null) { }
 
   /**
    * all cards are put into the drawstack
@@ -23,9 +28,7 @@ export class Game {
    * or if you want to step through each turn individually
    * it returns the log of this game
    */
-  public startGame(automaticRun: boolean): string {
-    this.log = "";
-
+  public startGame(automaticRun: boolean): void {
     // adds all the cards that the players have on their hands to the draw pile
     for (const player of this.players) {
       this.drawStack.addCardsToStack(player.hand);
@@ -46,18 +49,12 @@ export class Game {
     }
 
     this.running = true;
-    this.writeToLog("Starting the game with the following Players: ");
-
-    for (const player of this.players) {
-      this.writeToLog("\n" + player.playerName);
-    }
+    this.logInfo("Starting the game with the following Players: " + this.players);
 
     // game loop it loops as runs as long as the game is running
     while (this.running && automaticRun) {
-      this.writeToLog(this.playTurn());
+      this.playTurn();
     }
-
-    return this.log;
   }
 
   /**
@@ -79,41 +76,40 @@ export class Game {
    * one turn means that one player starts it and he then ends it
    * a turn can have more than one actions from a player
    */
-  public playTurn(): string {
-    let turnlog: string = "";
+  public playTurn(): void {
     const action: PlayerAction = this.currentPlayer.play(this);
 
     if (action instanceof PlayCardAction) {
-      // checks if the card can be played
+      // TODO: checks if the card can be played
 
-      // it removes the card specified in the action from the hand and then adds it to the game stack
+      // TODO: it removes the card specified in the action from the hand and then
+      //       adds it to the game stack
 
-      turnlog = turnlog.concat("\n" + this.currentPlayer.playerName + " played a card");
+      this.logInfo(this.currentPlayer + " played a card");
+
       // check if this player has no more cards in his hand which means he won
       if (this.currentPlayer.hand.length === 0) {
         this.running = false;
-        turnlog = turnlog.concat("\n" + this.currentPlayer.playerName + " won");
-        return turnlog;
+        this.logInfo(this.currentPlayer + " won");
+        return;
       }
+
       // it ends the turn
-      turnlog = turnlog.concat("\n" + this.currentPlayer.playerName + " ended his turn");
+      this.logInfo(this.currentPlayer + " ended his turn");
       this.endTurn();
-      return turnlog;
     } else {
       // if the player hasnt drawn a card yet
       if (!this.drewCard) {
         // the player draws a card from the draw stack
         this.currentPlayer.hand.push(this.drawStack.draw());
         this.drewCard = true;
-        turnlog = turnlog.concat("\n" + this.currentPlayer.playerName + " drew a card");
+        this.logInfo(this.currentPlayer + " drew a card");
+        this.playTurn();
       } else {
         this.endTurn();
-        turnlog = turnlog.concat("\n" + this.currentPlayer.playerName + " ended his turn");
-        return turnlog;
+        this.logInfo(this.currentPlayer + " ended his turn");
       }
     }
-    turnlog = turnlog.concat(this.playTurn());
-    return turnlog;
   }
 
   /**
@@ -123,8 +119,14 @@ export class Game {
     return this.players[this.activePlayerIndex];
   }
 
-  private writeToLog(text: string): void {
-    this.log = this.log.concat(text);
+  /**
+   * log some information
+   * @param text the text to log
+   */
+  private logInfo(text: string): void {
+    if (this.logger !== null) {
+      this.logger.info(text);
+    }
   }
 
   /**

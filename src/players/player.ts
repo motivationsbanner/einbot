@@ -15,4 +15,8 @@ export abstract class Player {
   public get playerName(): string {
     return this.name;
   }
+
+  public toString(): string {
+    return this.playerName;
+  }
 }
