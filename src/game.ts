@@ -112,10 +112,15 @@ export class Game {
     } else {
       // if the player hasnt drawn a card yet
       if (!this.drewCard) {
+        // check if there are cards in the draw stack
+        if (this.getDrawStackSize() === 0) {
+          this.gameStack.addCardsToDrawStack(this.drawStack, true);
+        }
         // the player draws a card from the draw stack
         this.currentPlayer.hand.push(this.drawStack.draw());
         this.drewCard = true;
-        this.logInfo(this.currentPlayer + " drew a card " + this.currentPlayer.hand[this.currentPlayer.hand.length-1]);
+        this.logInfo(this.currentPlayer + " drew a card "
+        + this.currentPlayer.hand[this.currentPlayer.hand.length - 1]);
         this.playTurn();
       } else {
         this.logInfo(this.currentPlayer + " ended his turn");
