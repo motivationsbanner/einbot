@@ -6,7 +6,7 @@ import { PlayerAction } from "./playerAction";
  * playstack and the he will end his turn
  */
 export class PlayCardAction extends PlayerAction {
-    constructor(public card: Card) {
-        super();
-      }
+  constructor(public card: Card) {
+    super();
+  }
 }

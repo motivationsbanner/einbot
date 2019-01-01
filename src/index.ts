@@ -10,5 +10,5 @@ const game: Game = new Game(players);
 // starts the game and adds the log to the document
 document.body.appendChild(document.createTextNode(game.startGame(false)));
 for (let i: number = 1; i <= 5; i++) {
-    document.body.appendChild(document.createTextNode(game.playTurn()));
+  document.body.appendChild(document.createTextNode(game.playTurn()));
 }
