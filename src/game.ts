@@ -31,7 +31,6 @@ export class Game {
    * it returns the log of this game
    */
   public startGame(automaticRun: boolean): void {
-    this.activePlayerIndex = 0;
     this.direction = false;
     this.drewCard = false;
     this.skip = false;
@@ -94,12 +93,8 @@ export class Game {
   public playTurn(): void {
     const action: PlayerAction = this.currentPlayer.play(this);
     while (this.drawCards > 0) {
-      this.currentPlayer.hand.push(this.drawStack.draw());
+      this.currentPlayerDrawCard();
       this.drawCards--;
-    }
-    if (this.skip) {
-      this.skip = false;
-      this.endTurn();
     }
     if (action instanceof PlayCardAction) {
       // TODO: checks if the card can be played
@@ -133,15 +128,8 @@ export class Game {
     } else {
       // if the player hasnt drawn a card yet
       if (!this.drewCard) {
-        // check if there are cards in the draw stack
-        if (this.getDrawStackSize() === 0) {
-          this.gameStack.addCardsToDrawStack(this.drawStack, true);
-        }
         // the player draws a card from the draw stack
-        this.currentPlayer.hand.push(this.drawStack.draw());
-        this.drewCard = true;
-        this.logInfo(this.currentPlayer + " drew a card "
-        + this.currentPlayer.hand[this.currentPlayer.hand.length - 1]);
+        this.currentPlayerDrawCard();
         this.playTurn();
       } else {
         this.logInfo(this.currentPlayer + " ended his turn");
@@ -163,8 +151,20 @@ export class Game {
   }
 
   public skipPlayer(): void {
-    this.skip = true;
+    this.endTurn();
   }
+
+  private currentPlayerDrawCard(): void {
+    // check if there are cards in the draw stack
+    if (this.getDrawStackSize() === 0) {
+      this.gameStack.addCardsToDrawStack(this.drawStack, true);
+    }
+    this.currentPlayer.hand.push(this.drawStack.draw());
+    this.drewCard = true;
+    this.logInfo(this.currentPlayer + " drew a card "
+    + this.currentPlayer.hand[this.currentPlayer.hand.length - 1]);
+  }
+
   /**
    * get the current player
    */

@@ -13,11 +13,10 @@ logger.info("Uno Game");
 const players: Player[] = [new BasicPlayer("basicPlayer1"),
 new BasicPlayer("basicPlayer2"),
 new BasicPlayer("basicPlayer3"),
-new BasicPlayer("basicPlayer4"),
-new PassingPlayer("passingPlayer1")];
+new BasicPlayer("basicPlayer4")];
 
 // creates a new game
-const game: Game = new Game(players, logger);
+const game: Game = new Game(players);
 
 // starts the game
 for (let i: number = 0; i < 1000; i++) {
