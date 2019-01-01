@@ -4,7 +4,7 @@ import { DrawStack } from "./drawStack";
 test("cards get generated", () => {
   const drawStack = new DrawStack();
 
-  expect(drawStack.length).toBe(104);
+  expect(drawStack.length).toBe(108);
 });
 
 test("cards can get drawn", () => {

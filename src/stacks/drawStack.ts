@@ -5,6 +5,8 @@ import { DrawCard } from "../cards/drawCard";
 import { NumberCard } from "../cards/numberCard";
 import { SkipCard } from "../cards/skipCard";
 import { Value } from "../cards/value";
+import { WildCard } from "../cards/wildCard";
+import { WildDrawCard } from "../cards/wildCardDraw";
 
 /**
  * this class represents the drawStack
@@ -58,7 +60,7 @@ export class DrawStack {
     this.cards = [];
 
     for (let color = 0; color < 4; color++) {
-      for (let value = 0; value < 10; value++) {
+      for (let value = 1; value < 10; value++) {
         for (let i = 0; i < 2; i++) {
           this.cards.push(new NumberCard(color as Color, value as Value));
         }
@@ -68,6 +70,9 @@ export class DrawStack {
         this.cards.push(new SkipCard(color as Color));
         this.cards.push(new DirectionCard(color as Color));
       }
+      this.cards.push(new NumberCard(color as Color, Value.ZERO));
+      this.cards.push(new WildCard(color as Color));
+      this.cards.push(new WildDrawCard(color as Color));
     }
   }
 }
