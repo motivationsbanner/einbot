@@ -46,7 +46,7 @@ export class DrawStack {
    */
   public shuffle(): void {
     for (let i = 0; i < this.length; i++) {
-      const ii = Math.floor(Math.random() * (this.length - 1 - i)) + i;
+      const ii = Math.floor(Math.random() * (this.length - i)) + i;
       [this.cards[i], this.cards[ii]] = [this.cards[ii], this.cards[i]];
     }
   }

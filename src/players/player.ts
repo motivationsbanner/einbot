@@ -19,6 +19,6 @@ export abstract class Player {
   }
 
   public toString(): string {
-    return this.playerName + " hand: " + this.hand;
+    return this.playerName;
   }
 }

@@ -24,7 +24,7 @@ export class NumberCard extends Card {
   }
 
   public toString(): string {
-    return " " + Color[this.color] + " " + this.value;
+    return Color[this.color] + " " + this.value;
   }
 
   public onPlay(game: Game): void {

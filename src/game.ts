@@ -35,7 +35,8 @@ export class Game {
     this.drewCard = false;
     this.skip = false;
     this.drawCards = 0;
-    // adds all the cards that the players have on their hands to the draw pile
+
+    // adds all the cards that the players have on  their hands to the draw pile
     for (const player of this.players) {
       this.drawStack.addCardsToStack(player.hand);
       player.hand = [];
@@ -49,13 +50,13 @@ export class Game {
 
     // give each player 7 cards
     for (const player of this.players) {
-      for (let j: number = 0; j <= 6; j++) {
+      for (let j: number = 0; j < 7; j++) {
         player.hand.push(this.drawStack.draw());
       }
     }
 
     this.running = true;
-    this.logInfo("Starting the game with the following Players: " + this.players);
+    this.logInfo("Starting the game with the following Players: " + this.players.join(", "));
 
     // game loop it loops as runs as long as the game is running
     while (this.running && automaticRun) {
@@ -107,7 +108,7 @@ export class Game {
       this.gameStack.addCard(action.card);
       action.card.onPlay(this);
       this.logInfo(this.currentPlayer + " played a " + action.card);
-      // check if this player has no more cards in his hand which means he won
+      // check if this player has no more cards in their hand which means he won
       if (this.currentPlayer.hand.length === 0) {
         this.running = false;
         this.logInfo(this.currentPlayer + " won");
@@ -123,7 +124,7 @@ export class Game {
       }
 
       // it ends the turn
-      this.logInfo(this.currentPlayer + " ended his turn");
+      this.logInfo(this.currentPlayer + " ended their turn");
       this.endTurn();
     } else {
       // if the player hasnt drawn a card yet
@@ -132,7 +133,7 @@ export class Game {
         this.currentPlayerDrawCard();
         this.playTurn();
       } else {
-        this.logInfo(this.currentPlayer + " ended his turn");
+        this.logInfo(this.currentPlayer + " ended their turn");
         this.endTurn();
       }
     }
@@ -154,6 +155,10 @@ export class Game {
     this.endTurn();
   }
 
+  public isRunning(): boolean {
+    return this.running;
+  }
+
   private currentPlayerDrawCard(): void {
     // check if there are cards in the draw stack
     if (this.getDrawStackSize() === 0) {
@@ -162,7 +167,7 @@ export class Game {
     this.currentPlayer.hand.push(this.drawStack.draw());
     this.drewCard = true;
     this.logInfo(this.currentPlayer + " drew a card "
-    + this.currentPlayer.hand[this.currentPlayer.hand.length - 1]);
+      + this.currentPlayer.hand[this.currentPlayer.hand.length - 1]);
   }
 
   /**

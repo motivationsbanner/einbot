@@ -1,11 +1,7 @@
 import { Game } from "../game";
 import { Card } from "./card";
 import { Color } from "./color";
-import { Value } from "./value";
 
-/**
- * a basic card with a number and a color
- */
 export class SkipCard extends Card {
   constructor(public color: Color) {
     super();
@@ -22,7 +18,7 @@ export class SkipCard extends Card {
   }
 
   public toString(): string {
-    return " " + Color[this.color] + " Skip Card";
+    return Color[this.color] + " Skip Card";
   }
 
   public onPlay(game: Game): void {
