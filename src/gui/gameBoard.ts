@@ -47,7 +47,7 @@ export class GameBoard {
       }, 500);
     });
 
-    this.cardsImage.src = "/images/cards.svg";
+    this.cardsImage.src = "images/cards.svg";
   }
 
   public renderGameState(game: Game) {
